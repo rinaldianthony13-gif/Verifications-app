@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Clarity Systems - Vérifications</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #eef1f6;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+#app {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  height: 90vh;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+header {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+  width: 220px;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab.active {
+  color: #209DB5;
+  border-bottom: 3px solid #209DB5;
+}
+
+#content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.item {
+  background: #f9f9f9;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.item.red {
+  border-left: 5px solid #e74c3c;
+}
+
+.item.green {
+  border-left: 5px solid #2ecc71;
+}
+
+.item h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.item p {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+button {
+  background: #209DB5;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1b889c;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+}
+
+.popup {
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.popup-content {
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  width:80%;
+  max-width:300px;
+  text-align:center;
+}
+
+.popup-buttons {
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.popup-buttons button {
+  flex:1;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<header>
+<img src="https://i.imgur.com/1ZFTLIo.png" class="logo">
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('today')">Aujourd’hui</div>
+  <div class="tab" onclick="switchTab('planning')">Planning</div>
+</div>
+
+<div id="content"></div>
+
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <p>Confirmer la vérification ?</p>
+    <div class="popup-buttons">
+      <button onclick="closePopup()">Annuler</button>
+      <button onclick="confirmValidation()">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const webhookGet = "TON_WEBHOOK_GET";
+const webhookPost = "TON_WEBHOOK_POST";
+
+let data = [];
+let currentId = null;
+let currentTab = "today";
+
+// Charger données
+async function loadData() {
+  const res = await fetch(webhookGet);
+  data = await res.json();
+  render();
+}
+
+// Switch tab
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  event.target.classList.add("active");
+  render();
+}
+
+// Render
+function render() {
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  if (currentTab === "today") {
+
+    const items = data.filter(item => {
+      const d = new Date(item.date);
+      return d <= today;
+    });
+
+    if (items.length === 0) {
+      content.innerHTML = `<div class="empty">✅ Rien à vérifier aujourd’hui</div>`;
+      return;
+    }
+
+    items.forEach(item => {
+      const d = new Date(item.date);
+      const isLate = d < today;
+
+      content.innerHTML += `
+      <div class="item ${isLate ? 'red' : 'green'}">
+        <h3>${item.name}</h3>
+        <p>${item.date}</p>
+        <button onclick="openPopup('${item.id}')">Valider</button>
+      </div>`;
+    });
+
+  } else {
+
+    const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    sorted.forEach(item => {
+      content.innerHTML += `
+      <div class="item">
+        <h3>${item.name}</h3>
+        <p>${item.date}</p>
+      </div>`;
+    });
+
+  }
+}
+
+// Popup
+function openPopup(id) {
+  currentId = id;
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+
+async function confirmValidation() {
+
+  await fetch(webhookPost, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: currentId })
+  });
+
+  closePopup();
+  loadData();
+}
+
+// Init
+loadData();
+
+</script>
+
+</body>
+</html>
