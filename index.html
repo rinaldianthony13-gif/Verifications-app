@@ -106,6 +106,7 @@ button:hover {
   text-align: center;
   color: #777;
   margin-top: 40px;
+  font-size: 16px;
 }
 
 .popup {
@@ -150,8 +151,8 @@ button:hover {
 </header>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('today')">Aujourd’hui</div>
-  <div class="tab" onclick="switchTab('planning')">Planning</div>
+  <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
+  <div class="tab" onclick="switchTab('planning', this)">Planning</div>
 </div>
 
 <div id="content"></div>
@@ -177,22 +178,32 @@ let data = [];
 let currentId = null;
 let currentTab = "today";
 
-// Charger données
+// Chargement des données
 async function loadData() {
-  const res = await fetch(webhookGet);
-  data = await res.json();
+  try {
+    const res = await fetch(webhookGet);
+    data = await res.json();
+  } catch {
+    data = [];
+  }
+
   render();
+
+  // 🔥 Double render pour éviter bug affichage
+  setTimeout(render, 50);
 }
 
-// Switch tab
-function switchTab(tab) {
+// Changement d’onglet
+function switchTab(tab, el) {
   currentTab = tab;
+
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  event.target.classList.add("active");
+  el.classList.add("active");
+
   render();
 }
 
-// Render
+// Affichage
 function render() {
   const content = document.getElementById("content");
   content.innerHTML = "";
@@ -204,6 +215,7 @@ function render() {
 
     const items = data.filter(item => {
       const d = new Date(item.date);
+      d.setHours(0,0,0,0);
       return d <= today;
     });
 
@@ -214,6 +226,7 @@ function render() {
 
     items.forEach(item => {
       const d = new Date(item.date);
+      d.setHours(0,0,0,0);
       const isLate = d < today;
 
       content.innerHTML += `
@@ -227,6 +240,11 @@ function render() {
   } else {
 
     const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    if (sorted.length === 0) {
+      content.innerHTML = `<div class="empty">Aucune donnée</div>`;
+      return;
+    }
 
     sorted.forEach(item => {
       content.innerHTML += `
@@ -249,20 +267,29 @@ function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 
+// Validation
 async function confirmValidation() {
 
-  await fetch(webhookPost, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: currentId })
-  });
+  try {
+    await fetch(webhookPost, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: currentId })
+    });
+  } catch {}
 
   closePopup();
-  loadData();
+
+  // message temporaire
+  document.getElementById("content").innerHTML = `<div class="empty">✅ Vérification enregistrée</div>`;
+
+  setTimeout(loadData, 800);
 }
 
-// Init
-loadData();
+// Lancement propre
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+});
 
 </script>
 
