@@ -203,8 +203,51 @@ function switchTab(tab, el) {
 
 // Affichage
 function render() {
-  const content = document.getElementById("content");
-  content.innerHTML = JSON.stringify(data);
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  if (currentTab === "today") {
+
+    const items = data.filter(item => {
+      const d = new Date(item.date);
+      d.setHours(0,0,0,0);
+      return d <= today;
+    });
+
+    if (items.length === 0) {
+      content.innerHTML = `<div class="empty">✅ Rien à vérifier aujourd’hui</div>`;
+      return;
+    }
+
+    items.forEach(item => {
+      const d = new Date(item.date);
+      d.setHours(0,0,0,0);
+      const isLate = d < today;
+
+      content.innerHTML += `
+      <div class="item ${isLate ? 'red' : 'green'}">
+        <h3>${item.name}</h3>
+        <p>${item.date}</p>
+        <button onclick="openPopup('${item.id}')">Valider</button>
+      </div>`;
+    });
+
+  } else {
+
+    const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    sorted.forEach(item => {
+      content.innerHTML += `
+      <div class="item">
+        <h3>${item.name}</h3>
+        <p>${item.date}</p>
+      </div>`;
+    });
+
+  }
 }
 
 // Popup
