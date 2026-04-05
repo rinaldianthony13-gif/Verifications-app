@@ -204,16 +204,7 @@ function switchTab(tab, el) {
 // Affichage
 function render() {
   const content = document.getElementById("content");
-  content.innerHTML = "";
-
-  data.forEach(item => {
-    content.innerHTML += `
-      <div class="item">
-        <h3>${item.name}</h3>
-        <p>${item.date}</p>
-      </div>
-    `;
-  });
+  content.innerHTML = JSON.stringify(data);
 }
 
 // Popup
