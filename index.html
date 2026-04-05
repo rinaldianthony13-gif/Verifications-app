@@ -182,10 +182,22 @@ let currentTab = "today";
 async function loadData() {
   try {
     const res = await fetch(webhookGet);
-    data = await res.json();
-  } catch {
+    console.log("STATUS:", res.status);
+
+    const text = await res.text();
+    console.log("RAW:", text);
+
+    data = JSON.parse(text);
+    console.log("DATA:", data);
+
+  } catch (e) {
+    console.log("ERREUR FETCH:", e);
     data = [];
   }
+
+  render();
+  setTimeout(render, 50);
+}
 
   render();
 
