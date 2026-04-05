@@ -255,17 +255,14 @@ function render() {
       d.setHours(0,0,0,0);
       const isLate = d < today;
 
-      content.innerHTML += `
+     content.innerHTML += `
 <div class="item ${isLate ? 'red' : 'green'}">
-  <div class="row">
-    <div class="left">
-      <h3>${item.name}</h3>
-      <p>${item.date}</p>
-    </div>
-    <button onclick="openPopup('${item.id}')">Valider</button>
-  </div>
+  <div class="item-info">
+    <h3>${item.name}</h3>
+    <p>${item.date}</p>
+  </div>
+  <button onclick="openPopup('${item.id}')">Valider</button>
 </div>`;
-    });
 
   } else {
 
