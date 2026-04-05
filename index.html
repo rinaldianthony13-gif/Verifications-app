@@ -3,237 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Clarity Systems - Vérifications</title>
 
 <style>
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
   background: #f2f2f7;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   margin: 0;
-  color: #111;
 }
 
 #app {
-  background: #ffffff;
+  background: #fff;
   width: 100%;
   max-width: 420px;
-  height: 90vh;
+  height: 92vh;
   border-radius: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.10);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
   overflow: hidden;
 }
 
+/* HEADER */
 header {
-  padding: 18px 16px 14px 16px;
+  padding: 14px;
   text-align: center;
-  border-bottom: 1px solid #ececf1;
-  background: #fff;
+  border-bottom: 1px solid #eee;
 }
 
 .logo {
-  width: 220px;
-  max-width: 100%;
-  display: block;
-  margin: 0 auto;
+  width: 200px;
 }
 
+/* TABS */
 .tabs {
   display: flex;
-  border-bottom: 1px solid #ececf1;
-  background: #fff;
+  border-bottom: 1px solid #eee;
 }
 
 .tab {
   flex: 1;
-  padding: 14px 12px 13px 12px;
+  padding: 14px;
   text-align: center;
-  cursor: pointer;
   font-weight: 600;
-  font-size: 16px;
-  color: #111;
-  position: relative;
+  font-size: 15px;
+  cursor: pointer;
 }
 
 .tab.active {
   color: #209DB5;
+  border-bottom: 3px solid #209DB5;
 }
 
-.tab.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  background: #209DB5;
-}
-
+/* CONTENT */
 #content {
   flex: 1;
   overflow-y: auto;
   padding: 12px;
-  background: #f7f7fa;
 }
 
+/* CARD */
 .item {
-  background: #ffffff;
-  border-radius: 18px;
-  margin-bottom: 10px;
-  padding: 10px 12px;
-  box-shadow: 0 2px 10px rgba(17,17,17,0.04);
+  background: #fff;
+  border-radius: 16px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   position: relative;
-  overflow: hidden;
 }
 
+/* COULEUR GAUCHE */
 .item.red::before,
 .item.green::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 4px;
-  border-radius: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 3px;
 }
 
-.item.red::before {
-  background: #eb554a;
-}
+.item.red::before { background: #e74c3c; }
+.item.green::before { background: #2ecc71; }
 
-.item.green::before {
-  background: #2ecc71;
-}
-
+/* LIGNE */
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  min-height: 54px;
 }
 
+/* TEXTE */
 .left {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1;
-  min-width: 0;
-  padding-left: 8px;
 }
 
 .item h3 {
-  margin: 0 0 3px 0;
+  margin: 0;
   font-size: 15px;
-  line-height: 1.2;
-  font-weight: 700;
-  color: #111;
+  font-weight: 600;
 }
 
 .item p {
-  margin: 0;
+  margin: 2px 0 0 0;
   font-size: 12px;
-  line-height: 1.2;
   color: #8e8e93;
-  font-weight: 500;
 }
 
+/* BOUTON */
 button {
-  border: none;
-  background: #209DB5;
-  color: #fff;
-  border-radius: 12px;
+  height: 34px;
   padding: 0 14px;
-  height: 40px;
-  min-width: 94px;
-  font-size: 14px;
+  background: #209DB5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(32,157,181,0.20);
-  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
 }
 
-button:hover {
-  background: #1b8ca2;
-}
-
-button:active {
-  transform: scale(0.98);
-  opacity: 0.92;
-}
-
+/* EMPTY */
 .empty {
   text-align: center;
+  margin-top: 30px;
   color: #8e8e93;
   font-size: 14px;
-  margin-top: 34px;
-  font-weight: 500;
 }
 
+/* POPUP */
 .popup {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.3);
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  backdrop-filter: blur(4px);
 }
 
 .popup-content {
-  background: rgba(255,255,255,0.96);
-  width: 100%;
-  max-width: 320px;
-  border-radius: 18px;
-  padding: 18px 16px 14px 16px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  width: 80%;
+  max-width: 300px;
   text-align: center;
-  box-shadow: 0 18px 44px rgba(0,0,0,0.18);
-}
-
-.popup-content p {
-  margin: 0;
-  font-size: 16px;
-  color: #111;
-  font-weight: 600;
 }
 
 .popup-buttons {
   display: flex;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 15px;
 }
 
 .popup-buttons button {
   flex: 1;
-  min-width: 0;
-  height: 42px;
-}
-
-.popup-buttons button:first-child {
-  background: #ececf1;
-  color: #111;
-  box-shadow: none;
-}
-
-.popup-buttons button:first-child:hover {
-  background: #e2e2e8;
-}
-
-@media (max-width: 600px) {
-  #app {
-    height: 92vh;
-    border-radius: 22px;
-  }
-
-  .logo {
-    width: 210px;
-  }
 }
 </style>
 </head>
@@ -242,16 +172,16 @@ button:active {
 
 <div id="app">
 
-  <header>
-    <img src="https://i.imgur.com/1ZFTLIo.png" class="logo" alt="Clarity Systems">
-  </header>
+<header>
+<img src="https://i.imgur.com/1ZFTLIo.png" class="logo">
+</header>
 
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
-    <div class="tab" onclick="switchTab('planning', this)">Planning</div>
-  </div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
+  <div class="tab" onclick="switchTab('planning', this)">Planning</div>
+</div>
 
-  <div id="content"></div>
+<div id="content"></div>
 
 </div>
 
@@ -266,6 +196,7 @@ button:active {
 </div>
 
 <script>
+
 const webhookGet = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
 const webhookPost = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
 
@@ -282,7 +213,6 @@ async function loadData() {
   }
 
   render();
-  setTimeout(render, 50);
 }
 
 function switchTab(tab, el) {
@@ -300,6 +230,7 @@ function render() {
   today.setHours(0,0,0,0);
 
   if (currentTab === "today") {
+
     const items = data.filter(item => {
       const d = new Date(item.date);
       d.setHours(0,0,0,0);
@@ -317,38 +248,33 @@ function render() {
       const isLate = d < today;
 
       content.innerHTML += `
-        <div class="item ${isLate ? 'red' : 'green'}">
-          <div class="row">
-            <div class="left">
-              <h3>${item.name}</h3>
-              <p>${item.date}</p>
-            </div>
-            <button onclick="openPopup('${item.id}')">Valider</button>
+      <div class="item ${isLate ? 'red' : 'green'}">
+        <div class="row">
+          <div class="left">
+            <h3>${item.name}</h3>
+            <p>${item.date}</p>
           </div>
+          <button onclick="openPopup('${item.id}')">Valider</button>
         </div>
-      `;
+      </div>`;
     });
 
   } else {
-    const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
 
-    if (sorted.length === 0) {
-      content.innerHTML = `<div class="empty">Aucune donnée</div>`;
-      return;
-    }
+    const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
 
     sorted.forEach(item => {
       content.innerHTML += `
-        <div class="item">
-          <div class="row">
-            <div class="left">
-              <h3>${item.name}</h3>
-              <p>${item.date}</p>
-            </div>
+      <div class="item">
+        <div class="row">
+          <div class="left">
+            <h3>${item.name}</h3>
+            <p>${item.date}</p>
           </div>
         </div>
-      `;
+      </div>`;
     });
+
   }
 }
 
@@ -371,13 +297,11 @@ async function confirmValidation() {
   } catch {}
 
   closePopup();
-  document.getElementById("content").innerHTML = `<div class="empty">✅ Vérification enregistrée</div>`;
-  setTimeout(loadData, 800);
+  loadData();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadData();
-});
+document.addEventListener("DOMContentLoaded", loadData);
+
 </script>
 
 </body>
