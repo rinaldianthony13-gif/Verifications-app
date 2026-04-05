@@ -7,6 +7,19 @@
 <title>Clarity Systems - Vérifications</title>
 
 <style>
+  /* Ligne horizontale */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Bloc texte */
+.left {
+  display: flex;
+  flex-direction: column;
+}
+  
 body {
   font-family: Arial, sans-serif;
   background: #f2f2f7;
@@ -98,10 +111,12 @@ button {
   background: #209DB5;
   color: white;
   border: none;
-  padding: 7px;
+  padding: 6px 12px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
+  width: auto;
+  min-width: 80px;
 }
 
 button:hover {
@@ -234,11 +249,15 @@ function render() {
       const isLate = d < today;
 
       content.innerHTML += `
-      <div class="item ${isLate ? 'red' : 'green'}">
-        <h3>${item.name}</h3>
-        <p>${item.date}</p>
-        <button onclick="openPopup('${item.id}')">Valider</button>
-      </div>`;
+<div class="item ${isLate ? 'red' : 'green'}">
+  <div class="row">
+    <div class="left">
+      <h3>${item.name}</h3>
+      <p>${item.date}</p>
+    </div>
+    <button onclick="openPopup('${item.id}')">Valider</button>
+  </div>
+</div>`;
     });
 
   } else {
