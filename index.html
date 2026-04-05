@@ -51,11 +51,11 @@ header {
 
 .tab {
   flex: 1;
-  padding: 14px 12px;
+  padding: 14px 8px;
   text-align: center;
   cursor: pointer;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   color: #111;
   transition: color 0.2s ease;
 }
@@ -263,6 +263,7 @@ button:active {
 <div class="tabs">
   <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
   <div class="tab" onclick="switchTab('planning', this)">Planning</div>
+  <div class="tab" onclick="switchTab('history', this)">Historique</div>
 </div>
 
 <div id="content"></div>
@@ -282,17 +283,25 @@ button:active {
 <script>
 const webhookGet = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
 const webhookPost = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
+const webhookHistory = "TON_WEBHOOK_HISTORIQUE";
 
 let data = [];
+let historyData = [];
 let currentId = null;
 let currentTab = "today";
 
 async function loadData() {
   try {
-    const res = await fetch(webhookGet);
-    data = await res.json();
+    const [mainRes, historyRes] = await Promise.all([
+      fetch(webhookGet),
+      fetch(webhookHistory)
+    ]);
+
+    data = await mainRes.json();
+    historyData = await historyRes.json();
   } catch {
     data = [];
+    historyData = [];
   }
 
   render();
@@ -371,7 +380,7 @@ function render() {
 </div>`;
     });
 
-  } else {
+  } else if (currentTab === "planning") {
     const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
 
     if (sorted.length === 0) {
@@ -385,6 +394,26 @@ function render() {
   <div class="item-info">
     <h3>${item.name}</h3>
     <p>${formatDateFR(item.date)}</p>
+  </div>
+</div>`;
+    });
+
+  } else if (currentTab === "history") {
+    const sortedHistory = [...historyData].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    if (sortedHistory.length === 0) {
+      content.innerHTML = `<div class="empty">Aucun historique</div>`;
+      return;
+    }
+
+    sortedHistory.forEach(item => {
+      const userLine = item.user ? ` • ${item.user}` : "";
+
+      content.innerHTML += `
+<div class="item">
+  <div class="item-info">
+    <h3>${item.name}</h3>
+    <p>${formatDateFR(item.date)}${userLine}</p>
   </div>
 </div>`;
     });
