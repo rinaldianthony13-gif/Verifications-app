@@ -7,165 +7,158 @@
 <title>Clarity Systems - Vérifications</title>
 
 <style>
+  /* Ligne horizontale */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Bloc texte */
+.left {
+  display: flex;
+  flex-direction: column;
+}
+  
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f2f7;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f2f2f7;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 #app {
-  background: #fff;
-  width: 100%;
-  max-width: 420px;
-  height: 90vh;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  overflow: hidden;
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  height: 90vh;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
 }
 
 header {
-  padding: 16px;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .logo {
-  width: 220px;
-  max-width: 100%;
+  width: 220px;
 }
 
 .tabs {
-  display: flex;
-  border-bottom: 1px solid #eee;
+  display: flex;
+  border-bottom: 1px solid #eee;
 }
 
 .tab {
-  flex: 1;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .tab.active {
-  color: #209DB5;
-  border-bottom: 3px solid #209DB5;
+  color: #209DB5;
+  border-bottom: 3px solid #209DB5;
 }
 
 #content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  background: #f7f7fa;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  min-width: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
 }
 
 .item {
-  background: #ffffff;
-  padding: 10px 12px;
-  border-radius: 14px;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: #ffffff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  backdrop-filter: blur(10px);
 }
 
+/* Barre couleur plus fine */
 .item.red {
-  border-left: 3px solid #e74c3c;
+  border-left: 3px solid #e74c3c;
 }
 
 .item.green {
-  border-left: 3px solid #2ecc71;
+  border-left: 3px solid #2ecc71;
 }
 
+/* Titre */
 .item h3 {
-  margin: 0 0 2px 0;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.2;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
 }
 
+/* Date */
 .item p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.2;
-  color: #888;
+  margin: 2px 0 8px 0;
+  font-size: 12px;
+  color: #888;
 }
 
+/* Bouton ultra propre */
 button {
-  background: #209DB5;
-  color: white;
-  border: none;
-  height: 34px;
-  padding: 0 14px;
-  border-radius: 9px;
-  font-size: 13px;
-  font-weight: 600;
-  width: auto;
-  min-width: 88px;
-  flex-shrink: 0;
-  cursor: pointer;
+  background: #209DB5;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  width: auto;
+  min-width: 80px;
 }
 
 button:hover {
-  background: #1b889c;
+  background: #1b889c;
 }
 
 .empty {
-  text-align: center;
-  color: #777;
-  margin-top: 40px;
-  font-size: 13px;
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+  font-size: 13px;
 }
 
 .popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
 
 .popup-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 80%;
-  max-width: 300px;
-  text-align: center;
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  width:80%;
+  max-width:300px;
+  text-align:center;
 }
 
 .popup-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  display:flex;
+  gap:10px;
+  margin-top:15px;
 }
 
 .popup-buttons button {
-  flex: 1;
+  flex:1;
 }
 </style>
 </head>
@@ -179,8 +172,8 @@ button:hover {
 </header>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
-  <div class="tab" onclick="switchTab('planning', this)">Planning</div>
+  <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
+  <div class="tab" onclick="switchTab('planning', this)">Planning</div>
 </div>
 
 <div id="content"></div>
@@ -188,13 +181,13 @@ button:hover {
 </div>
 
 <div class="popup" id="popup">
-  <div class="popup-content">
-    <p>Confirmer la vérification ?</p>
-    <div class="popup-buttons">
-      <button onclick="closePopup()">Annuler</button>
-      <button onclick="confirmValidation()">Confirmer</button>
-    </div>
-  </div>
+  <div class="popup-content">
+    <p>Confirmer la vérification ?</p>
+    <div class="popup-buttons">
+      <button onclick="closePopup()">Annuler</button>
+      <button onclick="confirmValidation()">Confirmer</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -208,25 +201,25 @@ let currentTab = "today";
 
 // Chargement des données
 async function loadData() {
-  try {
-    const res = await fetch(webhookGet);
-    data = await res.json();
-  } catch {
-    data = [];
-  }
+  try {
+    const res = await fetch(webhookGet);
+    data = await res.json();
+  } catch {
+    data = [];
+  }
 
-  render();
-  setTimeout(render, 50);
+  render();
+  setTimeout(render, 50);
 }
 
 // Changement d’onglet
 function switchTab(tab, el) {
-  currentTab = tab;
+  currentTab = tab;
 
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  el.classList.add("active");
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
 
-  render();
+  render();
 }
 
 // Affichage
@@ -273,14 +266,10 @@ function render() {
 
     sorted.forEach(item => {
       content.innerHTML += `
-<div class="item">
-  <div class="row">
-    <div class="left">
-      <h3>${item.name}</h3>
-      <p>${item.date}</p>
-    </div>
-  </div>
-</div>`;
+      <div class="item">
+        <h3>${item.name}</h3>
+        <p>${item.date}</p>
+      </div>`;
     });
 
   }
@@ -288,35 +277,36 @@ function render() {
 
 // Popup
 function openPopup(id) {
-  currentId = id;
-  document.getElementById("popup").style.display = "flex";
+  currentId = id;
+  document.getElementById("popup").style.display = "flex";
 }
 
 function closePopup() {
-  document.getElementById("popup").style.display = "none";
+  document.getElementById("popup").style.display = "none";
 }
 
 // Validation
 async function confirmValidation() {
 
-  try {
-    await fetch(webhookPost, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: currentId })
-    });
-  } catch {}
+  try {
+    await fetch(webhookPost, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: currentId })
+    });
+  } catch {}
 
-  closePopup();
+  closePopup();
 
-  document.getElementById("content").innerHTML = `<div class="empty">✅ Vérification enregistrée</div>`;
+  // message temporaire
+  document.getElementById("content").innerHTML = `<div class="empty">✅ Vérification enregistrée</div>`;
 
-  setTimeout(loadData, 800);
+  setTimeout(loadData, 800);
 }
 
 // Lancement propre
 document.addEventListener("DOMContentLoaded", () => {
-  loadData();
+  loadData();
 });
 
 </script>
