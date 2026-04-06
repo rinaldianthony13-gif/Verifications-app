@@ -292,15 +292,20 @@ let currentTab = "today";
 
 async function loadData() {
   try {
-    const [mainRes, historyRes] = await Promise.all([
-      fetch(webhookGet),
-      fetch(webhookHistory)
-    ]);
-
+    const mainRes = await fetch(webhookGet);
     data = await mainRes.json();
-    historyData = await historyRes.json();
   } catch {
     data = [];
+  }
+
+  try {
+    if (webhookHistory && webhookHistory !== "TON_WEBHOOK_HISTORIQUE") {
+      const historyRes = await fetch(webhookHistory);
+      historyData = await historyRes.json();
+    } else {
+      historyData = [];
+    }
+  } catch {
     historyData = [];
   }
 
