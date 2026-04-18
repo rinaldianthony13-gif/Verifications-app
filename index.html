@@ -4,746 +4,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clarity Systems - Vérifications</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Clarity Systems</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --accent: #0A84FF;
-    --accent-soft: rgba(10,132,255,0.12);
-    --danger: #FF3B30;
-    --danger-soft: rgba(255,59,48,0.10);
-    --warning: #FF9500;
-    --warning-soft: rgba(255,149,0,0.10);
-    --success: #30D158;
-    --success-soft: rgba(48,209,88,0.10);
-    --bg: #F2F2F7;
-    --surface: #FFFFFF;
-    --surface2: rgba(255,255,255,0.72);
-    --label: #000000;
-    --label2: #3C3C43;
-    --label3: rgba(60,60,67,0.60);
-    --label4: rgba(60,60,67,0.30);
-    --separator: rgba(60,60,67,0.12);
-    --radius-sm: 10px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --radius-xl: 26px;
-  }
+:root {
+–accent:       #0A84FF;
+–danger:       #FF3B30;
+–danger-soft:  rgba(255,59,48,0.10);
+–warning:      #FF9500;
+–warning-soft: rgba(255,149,0,0.10);
+–success:      #30D158;
+–success-soft: rgba(48,209,88,0.10);
+–bg:           #F2F2F7;
+–surface:      #FFFFFF;
+–label:        #000000;
+–label3:       rgba(60,60,67,0.55);
+–sep:          rgba(60,60,67,0.12);
+}
 
-  html, body {
-    height: 100%;
-  }
+html, body {
+height: 100%;
+background: var(–bg);
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  body {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
+#wrap {
+display: flex;
+justify-content: center;
+min-height: 100vh;
+}
 
-  #app-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 24px 16px;
-  }
+#app {
+width: 100%;
+max-width: 430px;
+background: var(–surface);
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
 
-  #app {
-    width: 100%;
-    max-width: 390px;
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    box-shadow:
-      0 0 0 0.5px rgba(0,0,0,0.08),
-      0 2px 4px rgba(0,0,0,0.04),
-      0 12px 40px rgba(0,0,0,0.10);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 48px);
-  }
+/* HEADER */
+.hdr {
+background: var(–surface);
+padding: 16px 18px 10px;
+border-bottom: 1px solid var(–sep);
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+}
 
-  /* ── HEADER ── */
-  .header {
-    padding: 20px 20px 0;
-    background: var(--surface);
-    position: relative;
-  }
+.logo { height: 26px; object-fit: contain; }
 
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
+.badge {
+background: rgba(255,59,48,0.12);
+color: var(–danger);
+font-size: 12px;
+font-weight: 700;
+padding: 4px 10px;
+border-radius: 20px;
+display: none;
+white-space: nowrap;
+}
+.badge.on { display: block; }
 
-  .logo {
-    height: 28px;
-    object-fit: contain;
-  }
+/* TABS */
+.tabs {
+display: flex;
+background: var(–surface);
+border-bottom: 1px solid var(–sep);
+}
 
-  .header-badge {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.01em;
-    display: none;
-  }
+.tab {
+flex: 1;
+padding: 13px 4px;
+text-align: center;
+font-size: 13px;
+font-weight: 600;
+color: var(–label3);
+cursor: pointer;
+position: relative;
+user-select: none;
+-webkit-tap-highlight-color: transparent;
+transition: color .18s;
+}
 
-  .header-badge.visible { display: block; }
+.tab.active { color: var(–accent); }
 
-  /* ── TABS ── */
-  .tabs-wrap {
-    padding: 0 4px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--separator);
-  }
+.tab.active::after {
+content: ‘’;
+position: absolute;
+bottom: -1px; left: 16px; right: 16px;
+height: 2.5px;
+background: var(–accent);
+border-radius: 2px 2px 0 0;
+}
 
-  .tabs {
-    display: flex;
-    gap: 2px;
-  }
+/* CONTENT */
+#content {
+flex: 1;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+padding: 12px;
+background: var(–bg);
+}
 
-  .tab {
-    flex: 1;
-    padding: 12px 6px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--label3);
-    cursor: pointer;
-    position: relative;
-    transition: color 0.2s;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
+/* SECTION LABEL */
+.slabel {
+font-size: 11px;
+font-weight: 700;
+letter-spacing: .07em;
+text-transform: uppercase;
+color: var(–label3);
+padding: 4px 2px 8px;
+}
 
-  .tab.active {
-    color: var(--accent);
-  }
+/* CARD */
+.card {
+background: var(–surface);
+border-radius: 16px;
+padding: 13px 14px 13px 16px;
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 12px;
+box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+position: relative;
+overflow: hidden;
+transition: opacity .25s, transform .2s;
+}
 
-  .tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 12px;
-    right: 12px;
-    height: 2px;
-    background: var(--accent);
-    border-radius: 2px 2px 0 0;
-  }
+.card::before {
+content: ‘’;
+position: absolute;
+left: 0; top: 0; bottom: 0;
+width: 4px;
+}
 
-  /* ── CONTENT ── */
-  #content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px;
-    background: var(--bg);
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+.card.red::before    { background: var(–danger); }
+.card.orange::before { background: var(–warning); }
+.card.ok::before     { background: var(–success); }
 
-  /* ── SECTION HEADER ── */
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--label3);
-    padding: 4px 4px 8px;
-  }
+.icon {
+width: 38px; height: 38px;
+border-radius: 10px;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px;
+flex-shrink: 0;
+}
 
-  /* ── CARD ── */
-  .item {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 14px 14px 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: transform 0.15s ease, opacity 0.28s ease;
-    position: relative;
-    overflow: hidden;
-  }
+.card.red    .icon { background: var(–danger-soft); }
+.card.orange .icon { background: var(–warning-soft); }
+.card.ok     .icon { background: var(–success-soft); }
 
-  .item::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    border-radius: 4px 0 0 4px;
-  }
+.info { flex: 1; min-width: 0; }
 
-  .item.red::before   { background: var(--danger); }
-  .item.orange::before { background: var(--warning); }
-  .item.green::before  { background: var(--success); }
+.cname {
+font-size: 15px;
+font-weight: 700;
+color: var(–label);
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+line-height: 1.2;
+margin-bottom: 3px;
+}
 
-  .status-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
+.cdate {
+font-size: 12px;
+font-weight: 500;
+color: var(–label3);
+}
 
-  .item.red    .status-dot { background: var(--danger-soft); }
-  .item.orange .status-dot { background: var(--warning-soft); }
-  .item.green  .status-dot { background: var(--success-soft); }
+.card.red    .cdate { color: var(–danger); }
+.card.orange .cdate { color: var(–warning); }
 
-  .item-info {
-    flex: 1;
-    min-width: 0;
-  }
+/* BUTTON */
+.vbtn {
+flex-shrink: 0;
+border: none;
+cursor: pointer;
+font-family: inherit;
+font-size: 13px;
+font-weight: 700;
+color: #fff;
+padding: 0 16px;
+height: 34px;
+border-radius: 10px;
+transition: opacity .15s, transform .15s;
+-webkit-tap-highlight-color: transparent;
+background: var(–accent);
+}
 
-  .item-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--label);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-    margin-bottom: 3px;
-  }
+.card.red .vbtn { background: var(–danger); }
+.vbtn:active { opacity: .8; transform: scale(.96); }
 
-  .item-date {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--label3);
-  }
+/* EMPTY */
+.empty {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+padding: 72px 32px;
+animation: fadeUp .3s ease;
+}
 
-  .item.red .item-date    { color: var(--danger); }
-  .item.orange .item-date { color: var(--warning); }
+.empty-ico   { font-size: 46px; }
+.empty-title { font-size: 17px; font-weight: 700; color: var(–label); }
+.empty-sub   { font-size: 13px; color: var(–label3); text-align: center; }
 
-  .item-action {
-    flex-shrink: 0;
-  }
+/* LOADER */
+.loader { display: flex; justify-content: center; padding: 70px; }
 
-  /* ── BUTTONS ── */
-  .btn {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    border-radius: var(--radius-sm);
-    transition: opacity 0.15s, transform 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
+.spinner {
+width: 28px; height: 28px;
+border: 3px solid var(–sep);
+border-top-color: var(–accent);
+border-radius: 50%;
+animation: spin .7s linear infinite;
+}
 
-  .btn:active { transform: scale(0.96); opacity: 0.8; }
+/* ACTION SHEET */
+.backdrop {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.35);
+display: flex;
+align-items: flex-end;
+justify-content: center;
+z-index: 100;
+opacity: 0;
+pointer-events: none;
+transition: opacity .22s ease;
+backdrop-filter: blur(4px);
+-webkit-backdrop-filter: blur(4px);
+}
 
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+.backdrop.open { opacity: 1; pointer-events: all; }
 
-  .btn-danger {
-    background: var(--danger);
-    color: #fff;
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+.sheet {
+width: 100%;
+max-width: 430px;
+padding: 0 10px 28px;
+transform: translateY(100%);
+transition: transform .3s cubic-bezier(.32,.72,0,1);
+}
 
-  .btn-ghost {
-    background: rgba(60,60,67,0.08);
-    color: var(--label);
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+.backdrop.open .sheet { transform: translateY(0); }
 
-  /* ── HISTORY ITEM (no button) ── */
-  .item.history-item::before { background: var(--success); }
+.sheet-card {
+background: rgba(250,250,250,0.97);
+border-radius: 16px;
+overflow: hidden;
+margin-bottom: 8px;
+}
 
-  .checkmark {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--success-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
+.sheet-info {
+padding: 14px 16px;
+text-align: center;
+border-bottom: 1px solid var(–sep);
+}
 
-  /* ── EMPTY STATE ── */
-  .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 64px 32px;
-    animation: fadeUp 0.3s ease;
-  }
+.sheet-name { font-size: 15px; font-weight: 700; color: var(–label); }
+.sheet-sub  { font-size: 12px; color: var(–label3); margin-top: 2px; }
 
-  .empty-icon {
-    font-size: 44px;
-    line-height: 1;
-  }
+.sbtn {
+width: 100%;
+padding: 16px;
+background: transparent;
+border: none;
+font-family: inherit;
+font-size: 17px;
+font-weight: 600;
+cursor: pointer;
+-webkit-tap-highlight-color: transparent;
+transition: background .12s;
+}
 
-  .empty-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--label);
-  }
+.sbtn:active { background: rgba(0,0,0,0.05); }
+.sbtn + .sbtn { border-top: 1px solid var(–sep); }
+.sbtn.confirm { color: var(–accent); }
 
-  .empty-sub {
-    font-size: 13px;
-    color: var(--label3);
-    text-align: center;
-  }
+.sheet-cancel { background: rgba(250,250,250,0.97); border-radius: 16px; overflow: hidden; }
+.sbtn.cancel  { color: var(–label); }
 
-  /* ── LOADER ── */
-  .loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-  }
+/* TOAST */
+.toast {
+position: fixed;
+left: 50%;
+bottom: 30px;
+transform: translateX(-50%) translateY(10px);
+background: rgba(28,28,28,0.88);
+color: #fff;
+padding: 11px 18px;
+border-radius: 14px;
+font-size: 14px;
+font-weight: 600;
+white-space: nowrap;
+z-index: 999;
+opacity: 0;
+pointer-events: none;
+transition: opacity .2s, transform .2s;
+backdrop-filter: blur(12px);
+}
 
-  .spinner {
-    width: 26px; height: 26px;
-    border: 2.5px solid var(--separator);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ── ACTION SHEET ── */
-  .sheet-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.32);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
+.card.removing { opacity: 0; transform: translateX(12px) scale(.97); }
 
-  .sheet-backdrop.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(8px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .sheet {
-    width: 100%;
-    max-width: 420px;
-    padding: 0 10px 16px;
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-  }
-
-  .sheet-backdrop.open .sheet {
-    transform: translateY(0);
-  }
-
-  .sheet-card {
-    background: rgba(252,252,252,0.95);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: 8px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  .sheet-title-block {
-    padding: 14px 16px;
-    text-align: center;
-    border-bottom: 1px solid var(--separator);
-  }
-
-  .sheet-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--label);
-    line-height: 1.3;
-  }
-
-  .sheet-sub {
-    font-size: 12px;
-    color: var(--label3);
-    margin-top: 2px;
-  }
-
-  .sheet-btn {
-    width: 100%;
-    padding: 16px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 17px;
-    font-weight: 600;
-    text-align: center;
-    transition: background 0.12s;
-    -webkit-tap-highlight-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .sheet-btn:active { background: rgba(60,60,67,0.1); }
-
-  .sheet-btn + .sheet-btn {
-    border-top: 1px solid var(--separator);
-  }
-
-  .sheet-btn.confirm { color: var(--accent); }
-  .sheet-btn.cancel-btn  { color: var(--label); }
-
-  .sheet-cancel {
-    background: rgba(252,252,252,0.95);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    left: 50%;
-    bottom: 32px;
-    transform: translateX(-50%) translateY(12px);
-    background: rgba(30,30,30,0.90);
-    color: #fff;
-    padding: 11px 18px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ── ANIMATIONS ── */
-  .item.removing {
-    opacity: 0;
-    transform: translateX(14px) scale(0.97);
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .item { animation: fadeUp 0.22s ease both; }
+.card { animation: fadeUp .2s ease both; }
 </style>
 
 </head>
-
 <body>
-<div id="app-wrapper">
-<div id="app">
 
-  <!-- Header -->
+<div id="wrap">
+  <div id="app">
 
-  <div class="header">
-    <div class="header-top">
-      <img src="https://i.imgur.com/1ZFTLIo.png" class="logo" alt="Clarity Systems">
-      <span class="header-badge" id="badge">0 en retard</span>
-    </div>
-  </div>
-
-  <!-- Tabs -->
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <div class="tab active" data-tab="today">Aujourd'hui</div>
-      <div class="tab" data-tab="planning">Planning</div>
-      <div class="tab" data-tab="history">Historique</div>
-    </div>
-  </div>
-
-  <!-- Content -->
-
-  <div id="content"></div>
-
-</div>
-</div><!-- end app-wrapper -->
-
-<!-- Action Sheet -->
-
-<div class="sheet-backdrop" id="sheet">
-  <div class="sheet">
-    <div class="sheet-card">
-      <div class="sheet-title-block">
-        <div class="sheet-title" id="sheet-title">Confirmer la vérification</div>
-        <div class="sheet-sub" id="sheet-sub"></div>
-      </div>
-      <button class="sheet-btn confirm" onclick="confirmValidation()">
-        ✓ Valider
-      </button>
-    </div>
-    <div class="sheet-cancel">
-      <button class="sheet-btn cancel-btn" onclick="closeSheet()">Annuler</button>
-    </div>
-  </div>
+```
+<div class="hdr">
+  <img src="https://i.imgur.com/1ZFTLIo.png" class="logo" alt="Clarity Systems">
+  <span class="badge" id="badge"></span>
 </div>
 
-<!-- Toast -->
+<div class="tabs">
+  <div class="tab active" data-tab="today">Aujourd'hui</div>
+  <div class="tab" data-tab="planning">Planning</div>
+  <div class="tab" data-tab="history">Historique</div>
+</div>
+
+<div id="content"></div>
+```
+
+  </div>
+</div>
+
+<div class="backdrop" id="backdrop">
+  <div class="sheet">
+    <div class="sheet-card">
+      <div class="sheet-info">
+        <div class="sheet-name" id="sname"></div>
+        <div class="sheet-sub">Marquer comme vérifiée ?</div>
+      </div>
+      <button class="sbtn confirm" id="sbtn-confirm">✓ Valider</button>
+    </div>
+    <div class="sheet-cancel">
+      <button class="sbtn cancel" id="sbtn-cancel">Annuler</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const webhookGet     = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
-const webhookPost    = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
-const webhookHistory = "https://hook.eu1.make.com/hvkdbbarp5tgk0azcwftpx6glful4y1f";
+const GET_URL  = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
+const POST_URL = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
+const HIST_URL = "https://hook.eu1.make.com/hvkdbbarp5tgk0azcwftpx6glful4y1f";
 
-let data = [];
-let historyData = [];
-let currentId = null;
-let currentTab = "today";
+let items = [], hist = [], currentTab = "today", pendingId = null;
 
-/* ── DATA ── */
-async function loadData() {
-  showLoader();
-  try {
-    const r = await fetch(webhookGet);
-    data = await r.json();
-  } catch { data = []; }
+/* TABS */
+document.querySelectorAll(".tab").forEach(t =>
+  t.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+    t.classList.add("active");
+    currentTab = t.dataset.tab;
+    render();
+  })
+);
 
-  try {
-    const r = await fetch(webhookHistory);
-    historyData = await r.json();
-  } catch { historyData = []; }
-
-  render();
-  updateBadge();
-}
-
-function updateBadge() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const late = data.filter(item => {
-    const d = new Date(item.date); d.setHours(0,0,0,0);
-    return d < today;
-  }).length;
-  const badge = document.getElementById("badge");
-  if (late > 0) {
-    badge.textContent = `${late} en retard`;
-    badge.classList.add("visible");
-  } else {
-    badge.classList.remove("visible");
-  }
-}
-
-/* ── TABS ── */
-document.querySelectorAll(".tab").forEach(t => {
-  t.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-    t.classList.add("active");
-    currentTab = t.dataset.tab;
-    render();
-  });
+/* SHEET */
+document.getElementById("sbtn-confirm").addEventListener("click", confirmVal);
+document.getElementById("sbtn-cancel").addEventListener("click", closeSheet);
+document.getElementById("backdrop").addEventListener("click", e => {
+  if (e.target === document.getElementById("backdrop")) closeSheet();
 });
 
-/* ── DATE ── */
-function formatDate(str) {
-  const d = new Date(str);
-  const s = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  return s.charAt(0).toUpperCase() + s.slice(1);
+/* DATA */
+async function loadData() {
+  showLoader();
+  try { items = await (await fetch(GET_URL)).json();  } catch { items = []; }
+  try { hist  = await (await fetch(HIST_URL)).json(); } catch { hist = []; }
+  updateBadge();
+  render();
 }
 
-function itemStatus(dateStr) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr); d.setHours(0,0,0,0);
-  if (d < today)  return { cls: "red",    emoji: "⚠️" };
-  if (d.getTime() === today.getTime()) return { cls: "orange", emoji: "🔔" };
-  return { cls: "green", emoji: "✅" };
+function midnight(d) { const x = new Date(d); x.setHours(0,0,0,0); return x; }
+
+function updateBadge() {
+  const today = midnight(new Date());
+  const n = items.filter(i => midnight(i.date) < today).length;
+  const b = document.getElementById("badge");
+  b.textContent = n + " en retard";
+  b.classList.toggle("on", n > 0);
 }
 
-/* ── RENDER ── */
+/* RENDER */
 function showLoader() {
-  document.getElementById("content").innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
+  document.getElementById("content").innerHTML =
+    '<div class="loader"><div class="spinner"></div></div>';
 }
 
 function render() {
-  const content = document.getElementById("content");
-  content.innerHTML = "";
+  const c = document.getElementById("content");
+  c.innerHTML = "";
+  const today = midnight(new Date());
 
-  const today = new Date(); today.setHours(0,0,0,0);
+  if (currentTab === "today") {
+    const all = items.filter(i => midnight(i.date) <= today);
+    if (!all.length) {
+      c.innerHTML = empty("✅", "Tout est à jour", "Aucune vérification en attente.");
+      return;
+    }
+    const late  = all.filter(i => midnight(i.date) < today);
+    const todayL = all.filter(i => midnight(i.date).getTime() === today.getTime());
 
-  if (currentTab === "today") {
-    const items = data.filter(item => {
-      const d = new Date(item.date); d.setHours(0,0,0,0);
-      return d <= today;
-    });
+    if (late.length) {
+      c.innerHTML += '<div class="slabel">En retard</div>';
+      late.forEach((item, i) => c.innerHTML += card(item, i, "red"));
+    }
+    if (todayL.length) {
+      c.innerHTML += '<div class="slabel">Aujourd\'hui</div>';
+      todayL.forEach((item, i) => c.innerHTML += card(item, i, "orange"));
+    }
 
-    if (items.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">✅</div>
-          <div class="empty-title">Tout est à jour</div>
-          <div class="empty-sub">Aucune vérification en attente pour aujourd'hui.</div>
-        </div>`;
-      return;
-    }
+  } else if (currentTab === "planning") {
+    const sorted = [...items].sort((a,b) => new Date(a.date)-new Date(b.date));
+    if (!sorted.length) { c.innerHTML = empty("📅", "Planning vide", "Aucune vérification planifiée."); return; }
+    c.innerHTML += '<div class="slabel">À venir</div>';
+    sorted.forEach((item, i) => c.innerHTML += card(item, i, "ok", false));
 
-    const late    = items.filter(i => { const d=new Date(i.date);d.setHours(0,0,0,0);return d<today; });
-    const todayItems = items.filter(i => { const d=new Date(i.date);d.setHours(0,0,0,0);return d.getTime()===today.getTime(); });
-
-    if (late.length > 0) {
-      content.innerHTML += `<div class="section-label">En retard</div>`;
-      late.forEach((item, i) => content.innerHTML += cardHTML(item, i, true));
-    }
-
-    if (todayItems.length > 0) {
-      content.innerHTML += `<div class="section-label">Aujourd'hui</div>`;
-      todayItems.forEach((item, i) => content.innerHTML += cardHTML(item, i + late.length, true));
-    }
-
-  } else if (currentTab === "planning") {
-    const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
-
-    if (sorted.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">📅</div>
-          <div class="empty-title">Planning vide</div>
-          <div class="empty-sub">Aucune vérification planifiée.</div>
-        </div>`;
-      return;
-    }
-
-    content.innerHTML += `<div class="section-label">À venir</div>`;
-    sorted.forEach((item, i) => content.innerHTML += cardHTML(item, i, false));
-
-  } else if (currentTab === "history") {
-    const sorted = [...historyData].sort((a,b) => new Date(b.date) - new Date(a.date));
-
-    if (sorted.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">🗂️</div>
-          <div class="empty-title">Aucun historique</div>
-          <div class="empty-sub">Les vérifications effectuées apparaîtront ici.</div>
-        </div>`;
-      return;
-    }
-
-    content.innerHTML += `<div class="section-label">Terminées</div>`;
-    sorted.forEach((item, i) => {
-      const userLine = item.user ? ` · ${item.user}` : "";
-      content.innerHTML += `
-        <div class="item history-item" style="animation-delay:${i*0.04}s">
-          <div class="checkmark">✅</div>
-          <div class="item-info">
-            <div class="item-name">${item.name}</div>
-            <div class="item-date">${formatDate(item.date)}${userLine}</div>
-          </div>
-        </div>`;
-    });
-  }
+  } else {
+    const sorted = [...hist].sort((a,b) => new Date(b.date)-new Date(a.date));
+    if (!sorted.length) { c.innerHTML = empty("🗂️", "Aucun historique", "Les vérifications effectuées apparaîtront ici."); return; }
+    c.innerHTML += '<div class="slabel">Terminées</div>';
+    sorted.forEach((item, i) => {
+      const u = item.user ? ` · ${item.user}` : "";
+      c.innerHTML += `<div class="card ok" style="animation-delay:${i*.04}s">
+        <div class="icon">✅</div>
+        <div class="info">
+          <div class="cname">${item.name}</div>
+          <div class="cdate">${fmt(item.date)}${u}</div>
+        </div>
+      </div>`;
+    });
+  }
 }
 
-function cardHTML(item, idx, showBtn) {
-  const { cls, emoji } = itemStatus(item.date);
-  const btnClass = cls === "red" ? "btn-danger" : "btn-primary";
-  const btnLabel = cls === "red" ? "Valider" : "Valider";
-
-  return `
-    <div class="item ${cls}" id="item-${item.id}" style="animation-delay:${idx*0.04}s">
-      <div class="status-dot">${emoji}</div>
-      <div class="item-info">
-        <div class="item-name">${item.name}</div>
-        <div class="item-date">${formatDate(item.date)}</div>
-      </div>
-      ${showBtn ? `<div class="item-action">
-        <button class="btn ${btnClass}" onclick="openSheet('${item.id}','${item.name}')">
-          ${btnLabel}
-        </button>
-      </div>` : ""}
-    </div>`;
+function card(item, idx, cls, btn = true) {
+  const ico = cls === "red" ? "⚠️" : cls === "orange" ? "🔔" : "📋";
+  return `<div class="card ${cls}" id="card-${item.id}" style="animation-delay:${idx*.04}s">
+    <div class="icon">${ico}</div>
+    <div class="info">
+      <div class="cname">${item.name}</div>
+      <div class="cdate">${fmt(item.date)}</div>
+    </div>
+    ${btn ? `<button class="vbtn" onclick="openSheet('${item.id}','${item.name.replace(/'/g,"\\'")}')">Valider</button>` : ""}
+  </div>`;
 }
 
-/* ── ACTION SHEET ── */
+function empty(ico, title, sub) {
+  return `<div class="empty">
+    <div class="empty-ico">${ico}</div>
+    <div class="empty-title">${title}</div>
+    <div class="empty-sub">${sub}</div>
+  </div>`;
+}
+
+/* SHEET */
 function openSheet(id, name) {
-  currentId = id;
-  document.getElementById("sheet-title").textContent = name;
-  document.getElementById("sheet-sub").textContent = "Cette vérification sera marquée comme effectuée.";
-  document.getElementById("sheet").classList.add("open");
+  pendingId = id;
+  document.getElementById("sname").textContent = name;
+  document.getElementById("backdrop").classList.add("open");
 }
 
 function closeSheet() {
-  document.getElementById("sheet").classList.remove("open");
+  document.getElementById("backdrop").classList.remove("open");
 }
 
-document.getElementById("sheet").addEventListener("click", e => {
-  if (e.target === document.getElementById("sheet")) closeSheet();
-});
-
-async function confirmValidation() {
-  const card = document.getElementById(`item-${currentId}`);
-
-  try {
-    await fetch(webhookPost, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: currentId })
-    });
-  } catch {}
-
-  closeSheet();
-
-  if (card) {
-    card.classList.add("removing");
-  }
-
-  showToast("✅ Vérification enregistrée");
-  setTimeout(loadData, 400);
+async function confirmVal() {
+  const c = document.getElementById("card-" + pendingId);
+  try {
+    await fetch(POST_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: pendingId })
+    });
+  } catch {}
+  closeSheet();
+  if (c) c.classList.add("removing");
+  toast("✅ Vérification enregistrée");
+  setTimeout(loadData, 420);
 }
 
-/* ── TOAST ── */
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove("show"), 2000);
+/* TOAST */
+let tt;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(tt);
+  tt = setTimeout(() => el.classList.remove("show"), 2200);
 }
 
-/* ── INIT ── */
-document.addEventListener("DOMContentLoaded", loadData);
+/* UTILS */
+function fmt(str) {
+  const s = new Date(str).toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long" });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+loadData();
 </script>
 
 </body>
