@@ -1,520 +1,290 @@
-<!DOCTYPE html>
+Code suivi vérification 
 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Clarity Systems - Vérifications</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+  background: #f2f2f7;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
 
-  :root {
-    --accent: #0A84FF;
-    --accent-soft: rgba(10,132,255,0.12);
-    --danger: #FF3B30;
-    --danger-soft: rgba(255,59,48,0.10);
-    --warning: #FF9500;
-    --warning-soft: rgba(255,149,0,0.10);
-    --success: #30D158;
-    --success-soft: rgba(48,209,88,0.10);
-    --bg: #F2F2F7;
-    --surface: #FFFFFF;
-    --surface2: rgba(255,255,255,0.72);
-    --label: #000000;
-    --label2: #3C3C43;
-    --label3: rgba(60,60,67,0.60);
-    --label4: rgba(60,60,67,0.30);
-    --separator: rgba(60,60,67,0.12);
-    --radius-sm: 10px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --radius-xl: 26px;
-  }
+#app {
+  background: rgba(255,255,255,0.92);
+  width: 100%;
+  max-width: 420px;
+  height: 90vh;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
 
-  body {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 24px 16px;
-  }
+header {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(10px);
+}
 
-  #app {
-    width: 100%;
-    max-width: 390px;
-    background: var(--surface);
-    border-radius: var(--radius-xl);
-    box-shadow:
-      0 0 0 0.5px rgba(0,0,0,0.08),
-      0 2px 4px rgba(0,0,0,0.04),
-      0 12px 40px rgba(0,0,0,0.10);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 88vh;
-  }
+.logo {
+  width: 220px;
+  max-width: 100%;
+}
 
-  /* ── HEADER ── */
-  .header {
-    padding: 20px 20px 0;
-    background: var(--surface);
-    position: relative;
-  }
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.76);
+  backdrop-filter: blur(10px);
+}
 
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
+.tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  color: #111;
+  transition: color 0.2s ease;
+}
 
-  .logo {
-    height: 28px;
-    object-fit: contain;
-  }
+.tab.active {
+  color: #209DB5;
+  border-bottom: 3px solid #209DB5;
+}
 
-  .header-badge {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.01em;
-    display: none;
-  }
+#content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  background: #f6f6f8;
+}
 
-  .header-badge.visible { display: block; }
+.item {
+  background: rgba(255,255,255,0.84);
+  padding: 8px 12px;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.25s ease;
+  backdrop-filter: blur(10px);
+}
 
-  /* ── TABS ── */
-  .tabs-wrap {
-    padding: 0 4px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--separator);
-  }
+.item:active {
+  transform: scale(0.985);
+}
 
-  .tabs {
-    display: flex;
-    gap: 2px;
-  }
+.item.red {
+  border-left: 4px solid #e74c3c;
+}
 
-  .tab {
-    flex: 1;
-    padding: 12px 6px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--label3);
-    cursor: pointer;
-    position: relative;
-    transition: color 0.2s;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
+.item.green {
+  border-left: 4px solid #2ecc71;
+}
 
-  .tab.active {
-    color: var(--accent);
-  }
+.item.orange {
+  border-left: 4px solid #f39c12;
+}
 
-  .tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 12px;
-    right: 12px;
-    height: 2px;
-    background: var(--accent);
-    border-radius: 2px 2px 0 0;
-  }
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
 
-  /* ── CONTENT ── */
-  #content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px;
-    background: var(--bg);
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+.item h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #111;
+}
 
-  /* ── SECTION HEADER ── */
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--label3);
-    padding: 4px 4px 8px;
-  }
+.item p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.15;
+  color: #8e8e93;
+  text-transform: capitalize;
+}
 
-  /* ── CARD ── */
-  .item {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 14px 14px 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: transform 0.15s ease, opacity 0.28s ease;
-    position: relative;
-    overflow: hidden;
-  }
+button {
+  background: linear-gradient(180deg, #2aa8c1 0%, #209DB5 100%);
+  color: white;
+  border: none;
+  height: 31px;
+  padding: 0 13px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 74px;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(32,157,181,0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
 
-  .item::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    border-radius: 4px 0 0 4px;
-  }
+button:hover {
+  box-shadow: 0 6px 14px rgba(32,157,181,0.28);
+}
 
-  .item.red::before   { background: var(--danger); }
-  .item.orange::before { background: var(--warning); }
-  .item.green::before  { background: var(--success); }
+button:active {
+  transform: scale(0.97);
+  opacity: 0.95;
+}
 
-  .status-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+  font-size: 13px;
+  animation: fadeIn 0.25s ease;
+}
 
-  .item.red    .status-dot { background: var(--danger-soft); }
-  .item.orange .status-dot { background: var(--warning-soft); }
-  .item.green  .status-dot { background: var(--success-soft); }
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.28);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.18s ease;
+}
 
-  .item-info {
-    flex: 1;
-    min-width: 0;
-  }
+.popup-content {
+  background: rgba(255,255,255,0.92);
+  padding: 20px;
+  border-radius: 16px;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 16px 30px rgba(0,0,0,0.14);
+  backdrop-filter: blur(12px);
+  animation: popIn 0.2s ease;
+}
 
-  .item-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--label);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-    margin-bottom: 3px;
-  }
+.popup-content p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
 
-  .item-date {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--label3);
-  }
+.popup-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
 
-  .item.red .item-date    { color: var(--danger); }
-  .item.orange .item-date { color: var(--warning); }
+.popup-buttons button {
+  flex: 1;
+  min-width: 0;
+}
 
-  .item-action {
-    flex-shrink: 0;
-  }
+.popup-buttons button:first-child {
+  background: #ececef;
+  color: #111;
+  box-shadow: none;
+}
 
-  /* ── BUTTONS ── */
-  .btn {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    border-radius: var(--radius-sm);
-    transition: opacity 0.15s, transform 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
+.popup-buttons button:first-child:hover {
+  box-shadow: none;
+}
 
-  .btn:active { transform: scale(0.96); opacity: 0.8; }
+.success-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  background: rgba(20,20,20,0.88);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  animation: toastIn 0.25s ease;
+}
 
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+.item.removing {
+  opacity: 0;
+  transform: translateX(10px) scale(0.98);
+}
 
-  .btn-danger {
-    background: var(--danger);
-    color: #fff;
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-  .btn-ghost {
-    background: rgba(60,60,67,0.08);
-    color: var(--label);
-    font-size: 13px;
-    padding: 8px 16px;
-    height: 34px;
-  }
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-  /* ── HISTORY ITEM (no button) ── */
-  .item.history-item::before { background: var(--success); }
-
-  .checkmark {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--success-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
-
-  /* ── EMPTY STATE ── */
-  .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 64px 32px;
-    animation: fadeUp 0.3s ease;
-  }
-
-  .empty-icon {
-    font-size: 44px;
-    line-height: 1;
-  }
-
-  .empty-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--label);
-  }
-
-  .empty-sub {
-    font-size: 13px;
-    color: var(--label3);
-    text-align: center;
-  }
-
-  /* ── LOADER ── */
-  .loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-  }
-
-  .spinner {
-    width: 26px; height: 26px;
-    border: 2.5px solid var(--separator);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  /* ── ACTION SHEET ── */
-  .sheet-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.32);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-
-  .sheet-backdrop.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .sheet {
-    width: 100%;
-    max-width: 420px;
-    padding: 0 10px 16px;
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-  }
-
-  .sheet-backdrop.open .sheet {
-    transform: translateY(0);
-  }
-
-  .sheet-card {
-    background: rgba(252,252,252,0.95);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: 8px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  .sheet-title-block {
-    padding: 14px 16px;
-    text-align: center;
-    border-bottom: 1px solid var(--separator);
-  }
-
-  .sheet-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--label);
-    line-height: 1.3;
-  }
-
-  .sheet-sub {
-    font-size: 12px;
-    color: var(--label3);
-    margin-top: 2px;
-  }
-
-  .sheet-btn {
-    width: 100%;
-    padding: 16px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 17px;
-    font-weight: 600;
-    text-align: center;
-    transition: background 0.12s;
-    -webkit-tap-highlight-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .sheet-btn:active { background: rgba(60,60,67,0.1); }
-
-  .sheet-btn + .sheet-btn {
-    border-top: 1px solid var(--separator);
-  }
-
-  .sheet-btn.confirm { color: var(--accent); }
-  .sheet-btn.cancel-btn  { color: var(--label); }
-
-  .sheet-cancel {
-    background: rgba(252,252,252,0.95);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    left: 50%;
-    bottom: 32px;
-    transform: translateX(-50%) translateY(12px);
-    background: rgba(30,30,30,0.90);
-    color: #fff;
-    padding: 11px 18px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ── ANIMATIONS ── */
-  .item.removing {
-    opacity: 0;
-    transform: translateX(14px) scale(0.97);
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .item { animation: fadeUp 0.22s ease both; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
 </style>
-
 </head>
 
 <body>
+
 <div id="app">
 
-  <!-- Header -->
+<header>
+<img src="https://i.imgur.com/1ZFTLIo.png" class="logo" alt="Clarity Systems">
+</header>
 
-  <div class="header">
-    <div class="header-top">
-      <img src="https://i.imgur.com/1ZFTLIo.png" class="logo" alt="Clarity Systems">
-      <span class="header-badge" id="badge">0 en retard</span>
-    </div>
-  </div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('today', this)">Aujourd’hui</div>
+  <div class="tab" onclick="switchTab('planning', this)">Planning</div>
+  <div class="tab" onclick="switchTab('history', this)">Historique</div>
+</div>
 
-  <!-- Tabs -->
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <div class="tab active" data-tab="today">Aujourd'hui</div>
-      <div class="tab" data-tab="planning">Planning</div>
-      <div class="tab" data-tab="history">Historique</div>
-    </div>
-  </div>
-
-  <!-- Content -->
-
-  <div id="content"></div>
+<div id="content"></div>
 
 </div>
 
-<!-- Action Sheet -->
-
-<div class="sheet-backdrop" id="sheet">
-  <div class="sheet">
-    <div class="sheet-card">
-      <div class="sheet-title-block">
-        <div class="sheet-title" id="sheet-title">Confirmer la vérification</div>
-        <div class="sheet-sub" id="sheet-sub"></div>
-      </div>
-      <button class="sheet-btn confirm" onclick="confirmValidation()">
-        ✓ Valider
-      </button>
-    </div>
-    <div class="sheet-cancel">
-      <button class="sheet-btn cancel-btn" onclick="closeSheet()">Annuler</button>
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <p>Confirmer la vérification ?</p>
+    <div class="popup-buttons">
+      <button onclick="closePopup()">Annuler</button>
+      <button onclick="confirmValidation()">Confirmer</button>
     </div>
   </div>
 </div>
-
-<!-- Toast -->
-
-<div class="toast" id="toast"></div>
 
 <script>
-const webhookGet     = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
-const webhookPost    = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
+const webhookGet = "https://hook.eu1.make.com/nef2xbgyv3xbgt5tdufuhlgmur8uo5om";
+const webhookPost = "https://hook.eu1.make.com/8jn8w4ocie8mvwdoa23650iw9o3ngoyz";
 const webhookHistory = "https://hook.eu1.make.com/hvkdbbarp5tgk0azcwftpx6glful4y1f";
 
 let data = [];
@@ -522,182 +292,149 @@ let historyData = [];
 let currentId = null;
 let currentTab = "today";
 
-/* ── DATA ── */
 async function loadData() {
-  showLoader();
   try {
-    const r = await fetch(webhookGet);
-    data = await r.json();
-  } catch { data = []; }
+    const mainRes = await fetch(webhookGet);
+    data = await mainRes.json();
+  } catch {
+    data = [];
+  }
 
   try {
-    const r = await fetch(webhookHistory);
-    historyData = await r.json();
-  } catch { historyData = []; }
+    if (webhookHistory && webhookHistory !== "TON_WEBHOOK_HISTORIQUE") {
+      const historyRes = await fetch(webhookHistory);
+      historyData = await historyRes.json();
+    } else {
+      historyData = [];
+    }
+  } catch {
+    historyData = [];
+  }
 
   render();
-  updateBadge();
 }
 
-function updateBadge() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const late = data.filter(item => {
-    const d = new Date(item.date); d.setHours(0,0,0,0);
-    return d < today;
-  }).length;
-  const badge = document.getElementById("badge");
-  if (late > 0) {
-    badge.textContent = `${late} en retard`;
-    badge.classList.add("visible");
-  } else {
-    badge.classList.remove("visible");
-  }
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  render();
 }
 
-/* ── TABS ── */
-document.querySelectorAll(".tab").forEach(t => {
-  t.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-    t.classList.add("active");
-    currentTab = t.dataset.tab;
-    render();
+function formatDateFR(dateString) {
+  const date = new Date(dateString);
+
+  let formatted = date.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
   });
-});
 
-/* ── DATE ── */
-function formatDate(str) {
-  const d = new Date(str);
-  const s = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
-function itemStatus(dateStr) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr); d.setHours(0,0,0,0);
-  if (d < today)  return { cls: "red",    emoji: "⚠️" };
-  if (d.getTime() === today.getTime()) return { cls: "orange", emoji: "🔔" };
-  return { cls: "green", emoji: "✅" };
-}
+function showToast(message) {
+  const existing = document.querySelector(".success-toast");
+  if (existing) existing.remove();
 
-/* ── RENDER ── */
-function showLoader() {
-  document.getElementById("content").innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
+  const toast = document.createElement("div");
+  toast.className = "success-toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 1600);
 }
 
 function render() {
   const content = document.getElementById("content");
   content.innerHTML = "";
 
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0,0,0,0);
 
   if (currentTab === "today") {
     const items = data.filter(item => {
-      const d = new Date(item.date); d.setHours(0,0,0,0);
+      const d = new Date(item.date);
+      d.setHours(0,0,0,0);
       return d <= today;
     });
 
     if (items.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">✅</div>
-          <div class="empty-title">Tout est à jour</div>
-          <div class="empty-sub">Aucune vérification en attente pour aujourd'hui.</div>
-        </div>`;
+      content.innerHTML = `<div class="empty">✅ Rien à vérifier aujourd’hui</div>`;
       return;
     }
 
-    const late    = items.filter(i => { const d=new Date(i.date);d.setHours(0,0,0,0);return d<today; });
-    const todayItems = items.filter(i => { const d=new Date(i.date);d.setHours(0,0,0,0);return d.getTime()===today.getTime(); });
+    items.forEach(item => {
+      const d = new Date(item.date);
+      d.setHours(0,0,0,0);
 
-    if (late.length > 0) {
-      content.innerHTML += `<div class="section-label">En retard</div>`;
-      late.forEach((item, i) => content.innerHTML += cardHTML(item, i, true));
-    }
+      let statusClass = "green";
+      if (d < today) {
+        statusClass = "red";
+      } else if (d.getTime() === today.getTime()) {
+        statusClass = "orange";
+      }
 
-    if (todayItems.length > 0) {
-      content.innerHTML += `<div class="section-label">Aujourd'hui</div>`;
-      todayItems.forEach((item, i) => content.innerHTML += cardHTML(item, i + late.length, true));
-    }
+      content.innerHTML += `
+<div class="item ${statusClass}" id="item-${item.id}">
+  <div class="item-info">
+    <h3>${item.name}</h3>
+    <p>${formatDateFR(item.date)}</p>
+  </div>
+  <button onclick="openPopup('${item.id}')">Valider</button>
+</div>`;
+    });
 
   } else if (currentTab === "planning") {
     const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
 
     if (sorted.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">📅</div>
-          <div class="empty-title">Planning vide</div>
-          <div class="empty-sub">Aucune vérification planifiée.</div>
-        </div>`;
+      content.innerHTML = `<div class="empty">Aucune donnée</div>`;
       return;
     }
 
-    content.innerHTML += `<div class="section-label">À venir</div>`;
-    sorted.forEach((item, i) => content.innerHTML += cardHTML(item, i, false));
+    sorted.forEach(item => {
+      content.innerHTML += `
+<div class="item">
+  <div class="item-info">
+    <h3>${item.name}</h3>
+    <p>${formatDateFR(item.date)}</p>
+  </div>
+</div>`;
+    });
 
   } else if (currentTab === "history") {
-    const sorted = [...historyData].sort((a,b) => new Date(b.date) - new Date(a.date));
+    const sortedHistory = [...historyData].sort((a,b) => new Date(b.date) - new Date(a.date));
 
-    if (sorted.length === 0) {
-      content.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">🗂️</div>
-          <div class="empty-title">Aucun historique</div>
-          <div class="empty-sub">Les vérifications effectuées apparaîtront ici.</div>
-        </div>`;
+    if (sortedHistory.length === 0) {
+      content.innerHTML = `<div class="empty">Aucun historique</div>`;
       return;
     }
 
-    content.innerHTML += `<div class="section-label">Terminées</div>`;
-    sorted.forEach((item, i) => {
-      const userLine = item.user ? ` · ${item.user}` : "";
+    sortedHistory.forEach(item => {
+      const userLine = item.user ? ` • ${item.user}` : "";
+
       content.innerHTML += `
-        <div class="item history-item" style="animation-delay:${i*0.04}s">
-          <div class="checkmark">✅</div>
-          <div class="item-info">
-            <div class="item-name">${item.name}</div>
-            <div class="item-date">${formatDate(item.date)}${userLine}</div>
-          </div>
-        </div>`;
+<div class="item">
+  <div class="item-info">
+    <h3>${item.name}</h3>
+    <p>${formatDateFR(item.date)}${userLine}</p>
+  </div>
+</div>`;
     });
   }
 }
 
-function cardHTML(item, idx, showBtn) {
-  const { cls, emoji } = itemStatus(item.date);
-  const btnClass = cls === "red" ? "btn-danger" : "btn-primary";
-  const btnLabel = cls === "red" ? "Valider" : "Valider";
-
-  return `
-    <div class="item ${cls}" id="item-${item.id}" style="animation-delay:${idx*0.04}s">
-      <div class="status-dot">${emoji}</div>
-      <div class="item-info">
-        <div class="item-name">${item.name}</div>
-        <div class="item-date">${formatDate(item.date)}</div>
-      </div>
-      ${showBtn ? `<div class="item-action">
-        <button class="btn ${btnClass}" onclick="openSheet('${item.id}','${item.name}')">
-          ${btnLabel}
-        </button>
-      </div>` : ""}
-    </div>`;
-}
-
-/* ── ACTION SHEET ── */
-function openSheet(id, name) {
+function openPopup(id) {
   currentId = id;
-  document.getElementById("sheet-title").textContent = name;
-  document.getElementById("sheet-sub").textContent = "Cette vérification sera marquée comme effectuée.";
-  document.getElementById("sheet").classList.add("open");
+  document.getElementById("popup").style.display = "flex";
 }
 
-function closeSheet() {
-  document.getElementById("sheet").classList.remove("open");
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
 }
-
-document.getElementById("sheet").addEventListener("click", e => {
-  if (e.target === document.getElementById("sheet")) closeSheet();
-});
 
 async function confirmValidation() {
   const card = document.getElementById(`item-${currentId}`);
@@ -710,28 +447,20 @@ async function confirmValidation() {
     });
   } catch {}
 
-  closeSheet();
+  closePopup();
 
   if (card) {
     card.classList.add("removing");
   }
 
   showToast("✅ Vérification enregistrée");
-  setTimeout(loadData, 400);
+
+  setTimeout(loadData, 450);
 }
 
-/* ── TOAST ── */
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove("show"), 2000);
-}
-
-/* ── INIT ── */
-document.addEventListener("DOMContentLoaded", loadData);
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+});
 </script>
 
 </body>
